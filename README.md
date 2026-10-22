@@ -21,8 +21,6 @@ sudo apt install zig
 make shadow-windows      # bin/shadow-windows.exe, PE32+
 ```
 
-<<<<<<< HEAD
-=======
 `zig cc -target x86_64-windows-gnu` provides the C toolchain.
 
 >>>>>>> 94991a5 (add arm+x86_64 macos support)
@@ -33,8 +31,6 @@ sudo apt install clang lld llvm
 make shadow-darwin       # bin/shadow-darwin, universal Mach-O
 ```
 
-<<<<<<< HEAD
-=======
 This builds arm64 and x86_64 slices with clang, links a matching libusb into
 each, and merges them with `lipo`. It uses `ld64.lld` and a pinned macOS SDK
 (26.1) fetched into `build/deps`. Set `DARWIN_SDK` to an existing
