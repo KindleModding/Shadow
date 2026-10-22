@@ -23,7 +23,6 @@ make shadow-windows      # bin/shadow-windows.exe, PE32+
 
 `zig cc -target x86_64-windows-gnu` provides the C toolchain.
 
->>>>>>> 94991a5 (add arm+x86_64 macos support)
 macOS:
 
 ```
@@ -37,7 +36,6 @@ each, and merges them with `lipo`. It uses `ld64.lld` and a pinned macOS SDK
 `MacOSX*.sdk` to skip the download; `LLVM_BIN`, `CLANG`, `LD64_LLD`, `LLVM_AR`,
 `LLVM_RANLIB`, `LLVM_STRIP` and `LIPO` override tool discovery.
 
->>>>>>> 94991a5 (add arm+x86_64 macos support)
 Both cross targets link libusb statically and write to `bin/`.
 
 ## Adding a firmware
