@@ -1,0 +1,68 @@
+{
+  "key": "4893890050",
+  "tizen_mtp_sha256": "39fb1fec89d79045785eee0b13e005ec3d2fe502663b9cd7424b9c865cd8858e",
+  "anchors": {
+    "rx_copy": {
+      "addr": "0x12c6a",
+      "window": 24,
+      "tokens": [
+        "ldr r3, [r0, #8]",
+        "push {r4, r5, r7, lr}",
+        "add r7, sp, #0",
+        "str r3, [r1, #8]",
+        "ldrh r3, [r0, #4]",
+        "strh r3, [r1, #4]",
+        "ldrh r3, [r0, #6]",
+        "strh r3, [r1, #6]",
+        "ldr r3, [r0]",
+        "str r3, [r1]",
+        "movs r3, #0",
+        "ldr r2, [r0]",
+        "subs r2, #0xc",
+        "lsrs r2, r2, #2",
+        "str r2, [r1, #0x20]",
+        "adds r4, r3, #1",
+        "uxth r3, r3",
+        "cmp r2, r3",
+        "bhi #?",
+        "pop {r4, r5, r7, pc}",
+        "adds r3, #2",
+        "add.w r5, r0, r3, lsl #2",
+        "add.w r3, r1, r3, lsl #2",
+        "ldr r5, [r5, #4]"
+      ],
+      "bytes": "8368b0b500af8b6083888b80c388cb8003680b60002302680c3a92080a625c1c9bb29a4200d8b0bd023300eb830501eb83036d685d602346f1e78368026a8b608388b0b500af8b80c388cb8003680a620b6000235c1c9bb29a4200d8b0bd0233"
+    },
+    "inject_event": {
+      "addr": "0xde54",
+      "window": 24,
+      "tokens": [
+        "push {r4, r7, lr}",
+        "sub sp, #0x1c",
+        "ldr r4, [pc, #?]",
+        "add r7, sp, #8",
+        "add r4, pc",
+        "strd r2, r3, [r7, #8]",
+        "ldr r3, [pc, #?]",
+        "strd r0, r1, [r7]",
+        "ldr r3, [r4, r3]",
+        "ldr r3, [r3]",
+        "cbz r3, #?",
+        "strd r1, r2, [sp]",
+        "ldr r2, [pc, #?]",
+        "mov r3, r0",
+        "movs r1, #1",
+        "movs r0, #6",
+        "add r2, pc",
+        "blx ?",
+        "ldr r3, [pc, #?]",
+        "add r3, pc",
+        "ldr r3, [r3, #8]",
+        "cbnz r3, #?",
+        "ldr r2, [pc, #?]",
+        "movs r1, #1"
+      ],
+      "bytes": "90b587b01d4c02af7c44c7e902231c4bc7e90001e3581b6843b1cde90012194a0346012106207a44f4f74ee9164b7b449b682bb9154a012103207a44f4f744e9134b102239467b445868f4f702ea0446f4f746ea631c036801d0042b0bd10193"
+    }
+  }
+}

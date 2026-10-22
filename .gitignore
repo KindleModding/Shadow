@@ -1,0 +1,29 @@
+# Investigation material — notes, decompilation, extracted images and the
+# exploit harness stay out of the client tree. The firmware-adding pipeline
+# (tools/, its harness/tools helpers and cmd/{fwharvest,ext4get,elfscan}) and
+# the per-record firmware JSONs are tracked.
+/notes/
+/harness/*
+!/harness/tools/
+/5196/
+/Shadow-Kindle-5196-Writeup.pdf
+
+# Firmware inputs — operator-supplied, large; never committed (GitHub 100MB file limit)
+firmwares/
+
+# Extracted firmware artifacts (regenerable from the .bin by the harvest pipeline)
+update_*.bin
+update-*.bin
+5196/rootfs.img
+5196/rootfs_mount/
+
+# Python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# Go tooling
+/build/
+/bin/

@@ -1,0 +1,68 @@
+{
+  "key": "4832540042",
+  "tizen_mtp_sha256": "a22fc9e321a470cc3be8373b1c5c5384b8ec76888b5a6dbc277465c121063989",
+  "anchors": {
+    "rx_copy": {
+      "addr": "0x1fcf0",
+      "window": 24,
+      "tokens": [
+        "push {r7}",
+        "sub sp, #0x14",
+        "add r7, sp, #0",
+        "str r0, [r7, #4]",
+        "str r1, [r7]",
+        "ldr r3, [r7, #4]",
+        "ldr r2, [r3, #8]",
+        "ldr r3, [r7]",
+        "str r2, [r3, #8]",
+        "ldr r3, [r7, #4]",
+        "ldrh r2, [r3, #4]",
+        "ldr r3, [r7]",
+        "strh r2, [r3, #4]",
+        "ldr r3, [r7, #4]",
+        "ldrh r2, [r3, #6]",
+        "ldr r3, [r7]",
+        "strh r2, [r3, #6]",
+        "ldr r3, [r7, #4]",
+        "ldr r2, [r3]",
+        "ldr r3, [r7]",
+        "str r2, [r3]",
+        "ldr r3, [r7, #4]",
+        "ldr r3, [r3]",
+        "subs r3, #0xc"
+      ],
+      "bytes": "80b485b000af786039607b689a683b689a607b689a883b689a807b68da883b68da807b681a683b681a607b681b680c3b9a083b681a620023fb810ee0fb89f8897a6802339b0013445a683968831c9b000b445a60fb890133fb81fa893b681b6a"
+    },
+    "inject_event": {
+      "addr": "0x189d4",
+      "window": 24,
+      "tokens": [
+        "push {r4, r7, lr}",
+        "sub sp, #0x34",
+        "add r7, sp, #8",
+        "str r0, [r7, #0xc]",
+        "str r1, [r7, #8]",
+        "str r2, [r7, #4]",
+        "str r3, [r7]",
+        "ldr r1, [pc, #?]",
+        "add r1, pc",
+        "add.w r3, r7, #0x14",
+        "movs r2, #0",
+        "str r2, [r3]",
+        "str r2, [r3, #4]",
+        "str r2, [r3, #8]",
+        "str r2, [r3, #0xc]",
+        "ldr r3, [r7, #0xc]",
+        "str r3, [r7, #0x14]",
+        "ldr r3, [r7, #8]",
+        "str r3, [r7, #0x18]",
+        "ldr r3, [r7, #4]",
+        "str r3, [r7, #0x1c]",
+        "ldr r3, [r7]",
+        "str r3, [r7, #0x20]",
+        "ldr r3, [pc, #?]"
+      ],
+      "bytes": "90b58db002aff860b9607a603b602949794407f1140300221a605a609a60da60fb687b61bb68bb617b68fb613b683b62214bcb581b68002b08d07b680093bb68fa681e4979440620eaf712e91c4b7b441b68002b05d11b4b7b4419460320eaf7"
+    }
+  }
+}
