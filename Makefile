@@ -33,17 +33,20 @@ else
 LIBUSB_CGO_ENV := PKG_CONFIG_PATH=$(LIBUSB_PREFIX)/lib/pkgconfig CGO_ENABLED=1 CGO_LDFLAGS="-L$(LIBUSB_PREFIX)/lib"
 endif
 
-# Darwin cross-build: clang's arm64-apple target, LLVM's Mach-O linker and a
-# macOS SDK. DARWIN_SDK may point at an SDK already on disk; the pinned archive
-# is fetched only when the default path is in use.
+# Darwin cross-build: clang's arm64 and x86_64 targets, LLVM's Mach-O linker
+# and a macOS SDK. DARWIN_SDK may point at an SDK already on disk; the pinned
+# archive is fetched only when the default path is in use.
 DARWIN_SDK_VER       := 26.1
 DARWIN_SDK_SHA256    := beee7212d265a6d2867d0236cc069314b38d5fb3486a6515734e76fa210c784c
 DARWIN_SDK_URL       := https://github.com/joseluisq/macosx-sdks/releases/download/$(DARWIN_SDK_VER)/MacOSX$(DARWIN_SDK_VER).sdk.tar.xz
 DARWIN_SDK           ?= $(DEPS_DIR)/MacOSX$(DARWIN_SDK_VER).sdk
 DARWIN_SDK_TARBALL   := $(DEPS_DIR)/MacOSX$(DARWIN_SDK_VER).sdk.tar.xz
-DARWIN_LIBUSB_PREFIX := $(DEPS_DIR)/libusb-darwin
-DARWIN_LIBUSB_PC     := $(DARWIN_LIBUSB_PREFIX)/lib/pkgconfig/libusb-1.0.pc
-DARWIN_TOOLS         := $(DEPS_DIR)/darwin-tools
+DARWIN_LIBUSB_ARM64    := $(DEPS_DIR)/libusb-darwin-arm64
+DARWIN_LIBUSB_AMD64    := $(DEPS_DIR)/libusb-darwin-amd64
+DARWIN_LIBUSB_ARM64_PC := $(DARWIN_LIBUSB_ARM64)/lib/pkgconfig/libusb-1.0.pc
+DARWIN_LIBUSB_AMD64_PC := $(DARWIN_LIBUSB_AMD64)/lib/pkgconfig/libusb-1.0.pc
+DARWIN_BIN_DIR         := $(DEPS_DIR)/darwin-bin
+DARWIN_TOOLS           := $(DEPS_DIR)/darwin-tools
 # Recorded in LC_BUILD_VERSION; read from the SDK so an overridden DARWIN_SDK
 # reports its real version.
 DARWIN_SDK_VERSION   = $(or $(shell sed -n 's/.*"Version":"\([^"]*\)".*/\1/p' $(DARWIN_SDK)/SDKSettings.json 2>/dev/null | head -1),11.0)
@@ -56,6 +59,7 @@ LD64_LLD    ?= $(shell command -v ld64.lld 2>/dev/null || echo $(LLVM_BIN)/ld64.
 LLVM_AR     ?= $(shell command -v llvm-ar 2>/dev/null || echo $(LLVM_BIN)/llvm-ar)
 LLVM_RANLIB ?= $(shell command -v llvm-ranlib 2>/dev/null || echo $(LLVM_BIN)/llvm-ranlib)
 LLVM_STRIP  ?= $(shell command -v llvm-strip 2>/dev/null || echo $(LLVM_BIN)/llvm-strip)
+LIPO        ?= $(shell command -v llvm-lipo 2>/dev/null || command -v lipo 2>/dev/null || echo $(LLVM_BIN)/llvm-lipo)
 DARWIN_PATH := $(DARWIN_TOOLS)$(if $(LLVM_BIN),:$(LLVM_BIN))
 
 # Windows cross-build from a non-Windows host: zig's bundled mingw-w64
@@ -125,16 +129,25 @@ shadow-deps-darwin:
 shadow-darwin: $(LIBUSB_PC)
 	$(LIBUSB_CGO_ENV) $(GO) build -o bin/shadow-darwin ./cmd/shadow
 else
-shadow-deps-darwin: $(DARWIN_LIBUSB_PC) $(DARWIN_TOOLS)/strip
+shadow-deps-darwin: $(DARWIN_LIBUSB_ARM64_PC) $(DARWIN_LIBUSB_AMD64_PC) $(DARWIN_TOOLS)/strip
 
 shadow-darwin: shadow-deps-darwin
 	@test -x "$(CLANG)" || { echo "clang not found: install clang + lld (or set CLANG/LLVM_BIN)" >&2; exit 1; }
 	@test -x "$(LD64_LLD)" || { echo "ld64.lld not found: install lld (or set LD64_LLD)" >&2; exit 1; }
+	@mkdir -p $(DARWIN_BIN_DIR)/arm64 $(DARWIN_BIN_DIR)/amd64
 	PATH="$(DARWIN_PATH):$$PATH" \
-	PKG_CONFIG_PATH=$(DARWIN_LIBUSB_PREFIX)/lib/pkgconfig CGO_ENABLED=1 GOOS=darwin GOARCH=arm64 \
+	PKG_CONFIG_PATH=$(DARWIN_LIBUSB_ARM64)/lib/pkgconfig CGO_ENABLED=1 GOOS=darwin GOARCH=arm64 \
 	CC="$(CLANG) -Qunused-arguments --target=arm64-apple-macos11 -isysroot $(DARWIN_SDK) -F$(DARWIN_SDK)/System/Library/Frameworks -fuse-ld=$(LD64_LLD)" \
-	CGO_LDFLAGS="-L$(DARWIN_LIBUSB_PREFIX)/lib -Wl,-platform_version,macos,11.0,$(DARWIN_SDK_VERSION) -Wl,-arch,arm64 -lobjc -framework IOKit -framework CoreFoundation -framework Security" \
-	$(GO) build -o bin/shadow-darwin ./cmd/shadow
+	CGO_LDFLAGS="-L$(DARWIN_LIBUSB_ARM64)/lib -Wl,-adhoc_codesign -Wl,-platform_version,macos,11.0,$(DARWIN_SDK_VERSION) -Wl,-arch,arm64 -lobjc -framework IOKit -framework CoreFoundation -framework Security" \
+	$(GO) build -o $(DARWIN_BIN_DIR)/arm64/shadow ./cmd/shadow
+	PATH="$(DARWIN_PATH):$$PATH" \
+	PKG_CONFIG_PATH=$(DARWIN_LIBUSB_AMD64)/lib/pkgconfig CGO_ENABLED=1 GOOS=darwin GOARCH=amd64 \
+	CC="$(CLANG) -Qunused-arguments --target=x86_64-apple-macos11 -isysroot $(DARWIN_SDK) -F$(DARWIN_SDK)/System/Library/Frameworks -fuse-ld=$(LD64_LLD)" \
+	CGO_LDFLAGS="-L$(DARWIN_LIBUSB_AMD64)/lib -Wl,-adhoc_codesign -Wl,-platform_version,macos,11.0,$(DARWIN_SDK_VERSION) -Wl,-arch,x86_64 -lobjc -framework IOKit -framework CoreFoundation -framework Security" \
+	$(GO) build -o $(DARWIN_BIN_DIR)/amd64/shadow ./cmd/shadow
+	@test -x "$(LIPO)" || { echo "lipo not found: install llvm (or set LIPO)" >&2; exit 1; }
+	$(LIPO) -create -output bin/shadow-darwin \
+		$(DARWIN_BIN_DIR)/arm64/shadow $(DARWIN_BIN_DIR)/amd64/shadow
 
 $(DARWIN_TOOLS)/strip:
 	@test -x "$(LLVM_STRIP)" || { echo "llvm-strip not found: install llvm (or set LLVM_STRIP)" >&2; exit 1; }
@@ -151,19 +164,33 @@ $(DARWIN_SDK): $(DARWIN_SDK_TARBALL)
 	tar -C $(DEPS_DIR) -xf $<
 endif
 
-$(DARWIN_LIBUSB_PC): $(LIBUSB_TARBALL) $(DARWIN_SDK)
+$(DARWIN_LIBUSB_ARM64_PC): $(LIBUSB_TARBALL) $(DARWIN_SDK)
 	@test -x "$(CLANG)" || { echo "clang not found: install clang + lld (or set CLANG/LLVM_BIN)" >&2; exit 1; }
 	@test -x "$(LD64_LLD)" || { echo "ld64.lld not found: install lld (or set LD64_LLD)" >&2; exit 1; }
-	rm -rf $(DEPS_DIR)/libusb-$(LIBUSB_VER)-darwin $(DARWIN_LIBUSB_PREFIX)
-	mkdir -p $(DEPS_DIR)/libusb-$(LIBUSB_VER)-darwin
-	tar -C $(DEPS_DIR)/libusb-$(LIBUSB_VER)-darwin --strip-components=1 -xf $(LIBUSB_TARBALL)
-	cd $(DEPS_DIR)/libusb-$(LIBUSB_VER)-darwin && \
+	rm -rf $(DEPS_DIR)/libusb-$(LIBUSB_VER)-darwin-arm64 $(DARWIN_LIBUSB_ARM64)
+	mkdir -p $(DEPS_DIR)/libusb-$(LIBUSB_VER)-darwin-arm64
+	tar -C $(DEPS_DIR)/libusb-$(LIBUSB_VER)-darwin-arm64 --strip-components=1 -xf $(LIBUSB_TARBALL)
+	cd $(DEPS_DIR)/libusb-$(LIBUSB_VER)-darwin-arm64 && \
 		CC="$(CLANG) --target=arm64-apple-macos11 -isysroot $(DARWIN_SDK) -F$(DARWIN_SDK)/System/Library/Frameworks -fuse-ld=$(LD64_LLD)" \
 		AR="$(LLVM_AR)" RANLIB="$(LLVM_RANLIB)" \
 		LDFLAGS="-Wl,-platform_version,macos,11.0,$(DARWIN_SDK_VERSION) -Wl,-arch,arm64" \
-		./configure --host=aarch64-apple-darwin --prefix=$(DARWIN_LIBUSB_PREFIX) --enable-static --disable-shared
-	$(MAKE) -C $(DEPS_DIR)/libusb-$(LIBUSB_VER)-darwin
-	$(MAKE) -C $(DEPS_DIR)/libusb-$(LIBUSB_VER)-darwin install
+		./configure --host=aarch64-apple-darwin --prefix=$(DARWIN_LIBUSB_ARM64) --enable-static --disable-shared
+	$(MAKE) -C $(DEPS_DIR)/libusb-$(LIBUSB_VER)-darwin-arm64
+	$(MAKE) -C $(DEPS_DIR)/libusb-$(LIBUSB_VER)-darwin-arm64 install
+
+$(DARWIN_LIBUSB_AMD64_PC): $(LIBUSB_TARBALL) $(DARWIN_SDK)
+	@test -x "$(CLANG)" || { echo "clang not found: install clang + lld (or set CLANG/LLVM_BIN)" >&2; exit 1; }
+	@test -x "$(LD64_LLD)" || { echo "ld64.lld not found: install lld (or set LD64_LLD)" >&2; exit 1; }
+	rm -rf $(DEPS_DIR)/libusb-$(LIBUSB_VER)-darwin-amd64 $(DARWIN_LIBUSB_AMD64)
+	mkdir -p $(DEPS_DIR)/libusb-$(LIBUSB_VER)-darwin-amd64
+	tar -C $(DEPS_DIR)/libusb-$(LIBUSB_VER)-darwin-amd64 --strip-components=1 -xf $(LIBUSB_TARBALL)
+	cd $(DEPS_DIR)/libusb-$(LIBUSB_VER)-darwin-amd64 && \
+		CC="$(CLANG) --target=x86_64-apple-macos11 -isysroot $(DARWIN_SDK) -F$(DARWIN_SDK)/System/Library/Frameworks -fuse-ld=$(LD64_LLD)" \
+		AR="$(LLVM_AR)" RANLIB="$(LLVM_RANLIB)" \
+		LDFLAGS="-Wl,-platform_version,macos,11.0,$(DARWIN_SDK_VERSION) -Wl,-arch,x86_64" \
+		./configure --host=x86_64-apple-darwin --prefix=$(DARWIN_LIBUSB_AMD64) --enable-static --disable-shared
+	$(MAKE) -C $(DEPS_DIR)/libusb-$(LIBUSB_VER)-darwin-amd64
+	$(MAKE) -C $(DEPS_DIR)/libusb-$(LIBUSB_VER)-darwin-amd64 install
 endif
 
 ifeq ($(OS),Windows_NT)
