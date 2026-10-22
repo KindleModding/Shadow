@@ -1,12 +1,8 @@
 # shadow
 
-`shadow` runs the Kindle jailbreak from one compiled binary: no Python on the
-host, no SSH, nothing fetched by the device. It exploits two bugs in the
+`shadow` is a kindle MTP jailbreak. It exploits two bugs in the
 Kindle's MTP responder (`tizen-mtp`, running as root) over USB and ends in an
-in-binary `system()` call that runs the
-[kindlemodding.org](https://kindlemodding.org) jailbreak script. Supported
-firmware is in [`firmware/db.json`](firmware/db.json): 24 chain-verified
-records for 5.19.4-5.19.6.
+in-binary `system()` call that runs jb.sh.
 
 ## Cross-compiling from Linux
 
@@ -25,21 +21,12 @@ sudo apt install zig
 make shadow-windows      # bin/shadow-windows.exe, PE32+
 ```
 
-`zig cc -target x86_64-windows-gnu` provides the C toolchain; the pinned MSYS2
-libusb archive lands in `build/deps` and is linked statically, so there is no
-`libusb-1.0.dll`. The binary imports KERNEL32 plus the UCRT (Windows 10+).
-
 macOS:
 
 ```
 sudo apt install clang lld llvm
 make shadow-darwin       # bin/shadow-darwin, arm64 Mach-O
 ```
-
-This uses clang's `arm64-apple` target, `ld64.lld`, and a pinned macOS SDK
-(26.1) fetched into `build/deps`. Set `DARWIN_SDK` to an existing
-`MacOSX*.sdk` to skip the download; `LLVM_BIN`, `CLANG`, `LD64_LLD`,
-`LLVM_AR`, `LLVM_RANLIB` and `LLVM_STRIP` override tool discovery.
 
 Both cross targets link libusb statically and write to `bin/`.
 `shadow-windows` still builds natively on Windows, and `shadow-darwin`
