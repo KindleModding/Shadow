@@ -228,9 +228,7 @@ func run() int {
 	fmt.Println("  Keep the Kindle plugged in until it finishes.")
 	fmt.Println("  A reboot is expected at the end.")
 	fmt.Println("  If nothing happens on the Kindle, the build number you entered does not")
-	fmt.Println("  match its firmware: the chain is aimed at build-specific addresses, so a")
-	fmt.Println("  mismatch delivers the payload without running anything. Compare the")
-	fmt.Println("  Device line above with the model you actually have.")
+	fmt.Println("  match its firmware: double check the build number and try again.")
 	fmt.Println()
 	return 0
 }
